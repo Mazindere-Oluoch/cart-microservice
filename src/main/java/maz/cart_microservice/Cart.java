@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Cart { // storing id's of user & cart
+public class Cart { // entire shopping basket
 
     @Id
     @GeneratedValue
@@ -31,18 +31,19 @@ public class Cart { // storing id's of user & cart
     private Long userId; //find how user id got in Cart
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "cart_id")
-    private List<CartItem> items;
+    @JoinColumn(name = "cart_id") //FK connects each cart item to its cart
+    private List<CartItem> items;  //can result in NPE if items is null
 
-//    todo check the below methods
+
     public void addCartItem(Long itemId) {
         items.add(CartItem.builder()
                 .itemId(itemId)
-                .amount(1).build());
+                .amount(1)
+                .build());
     }
 
     public void removeCartItem(Long cartItemId) {
-        items.removeIf(ci -> ci.getId().equals(cartItemId));
+        items.removeIf(ci -> ci.getId().equals(cartItemId)); //todo revisit java collections
     }
 }
 
