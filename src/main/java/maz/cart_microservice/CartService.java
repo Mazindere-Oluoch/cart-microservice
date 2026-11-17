@@ -2,12 +2,17 @@ package maz.cart_microservice;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import maz.cart_microservice.entity.Cart;
+import maz.cart_microservice.entity.CartItem;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
     private final CartRepository cartRepository;
+    private final RestTemplate restTemplate;
+
 
     public Cart getCartByUserId(Long userId) {
         Cart cart = cartRepository.findByUserId(userId); //shld first verify user in user MS-NOT IMPLEMENTED

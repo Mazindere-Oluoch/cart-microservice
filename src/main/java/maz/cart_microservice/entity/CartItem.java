@@ -1,4 +1,4 @@
-package maz.cart_microservice;
+package maz.cart_microservice.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

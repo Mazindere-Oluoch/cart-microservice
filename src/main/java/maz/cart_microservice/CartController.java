@@ -35,7 +35,7 @@ public class CartController {
 
     @PostMapping("/{userId}") //add item to cart by user
     public ResponseEntity<?> addNewCartItem(
-            @RequestParam("item-id") Long itemId,
+            @RequestParam("itemId") Long itemId,
             @PathVariable Long userId) {
         try {
             return ResponseEntity.ok(cartService.addCartItem(itemId, userId));
@@ -59,7 +59,7 @@ public class CartController {
         }
     }
 
-    @DeleteMapping("/{userId}/{cartItemId}") //todo cartItem id- check this
+    @DeleteMapping("/{userId}/{cartItemId}")
     public ResponseEntity<?> removeCartItem(
             @PathVariable("cartItemId") Long cartItemId,
             @PathVariable("userId") Long userId) {
