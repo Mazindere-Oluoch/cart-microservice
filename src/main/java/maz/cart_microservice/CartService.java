@@ -13,9 +13,29 @@ public class CartService {
     private final CartRepository cartRepository;
     private final RestTemplate restTemplate;
 
+    //communicating w other MS
+    private void validateUser(Long userId){
+        restTemplate.getForEntity(
+                "http://USER-MICROSERVICE/user/{id}", // MS name & endpoint
+                Object.class, // expected res type
+                userId
+        );
+    }
+
+    private void validateItem(Long itemId){
+        restTemplate.getForEntity(
+                "http://ITEM-MICROSERVICE/item/{id}",
+                Object.class, // we use obj.class- only want to verify the user/item exists. We don't need their full details yet.
+                itemId
+        );
+    }
+
 
     public Cart getCartByUserId(Long userId) {
-        Cart cart = cartRepository.findByUserId(userId); //shld first verify user in user MS-NOT IMPLEMENTED
+//        check whether user exists in user MS
+        validateUser(userId);
+
+        Cart cart = cartRepository.findByUserId(userId);
         if (cart == null) {  //create cart for user if it doesn't exist
             cart = Cart.builder()
                     .userId(userId)
@@ -28,7 +48,11 @@ public class CartService {
 
     @Transactional
     public Cart addCartItem(Long itemId, Long userId) {
-        Cart cart = cartRepository.findByUserId(userId);
+        validateItem(itemId);
+
+        //get user's cart
+        Cart cart = getCartByUserId(userId);
+
         for (CartItem item : cart.getItems()) { //cart item objs in a cart
             if (item.getItemId().equals(itemId)) { // checks whether the item being added already exists in the cart
                 item.setAmount(item.getAmount() + 1); //if it exists, increment its qty //todo impl this in my ecommerce

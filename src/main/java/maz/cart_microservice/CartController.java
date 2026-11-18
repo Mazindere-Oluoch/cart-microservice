@@ -46,7 +46,7 @@ public class CartController {
     }
 
     @PatchMapping("/{userId}/{cartItemId}")
-    public ResponseEntity<?> updateItemAmount(
+    public ResponseEntity<?> updateItemAmount( //todo - handle missing cart / cart item 
             @PathVariable("userId") Long userId,
             @PathVariable("cartItemId") Long cartItemId,
             @RequestParam("amount") Integer amount) {

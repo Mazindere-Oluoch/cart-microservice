@@ -35,7 +35,7 @@ public class Cart { // entire shopping basket
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "cart_id") //FK connects each cart item to its cart
     private List<CartItem> items = new ArrayList<>();  /* changed from just List<CartItem> items to avoid NPE-
-    initializes the field with an actual empty list object instead of leaving it as null*/
+    initializes the field with an actual empty list object instead of leaving it as null- mostly used in 1:M */
 
 
     public void addCartItem(Long itemId) {
